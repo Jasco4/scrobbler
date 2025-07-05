@@ -1,0 +1,203 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'interface.ui'
+##
+## Created by: Qt User Interface Compiler version 6.9.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QAbstractButton, QApplication, QComboBox, QDialogButtonBox,
+    QFrame, QLabel, QLineEdit, QMainWindow,
+    QMenuBar, QPushButton, QSizePolicy, QStackedWidget,
+    QStatusBar, QTextEdit, QWidget)
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(240, 370)
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setGeometry(QRect(0, 20, 240, 360))
+        self.stackedWidget.setFrameShape(QFrame.Shape.NoFrame)
+        self.stackedWidget.setFrameShadow(QFrame.Shadow.Raised)
+        self.LoginPage = QWidget()
+        self.LoginPage.setObjectName(u"LoginPage")
+        self.SubmitLoginData = QDialogButtonBox(self.LoginPage)
+        self.SubmitLoginData.setObjectName(u"SubmitLoginData")
+        self.SubmitLoginData.setGeometry(QRect(40, 200, 156, 24))
+        self.SubmitLoginData.setStandardButtons(QDialogButtonBox.StandardButton.Close|QDialogButtonBox.StandardButton.Save)
+        self.LoginFrame = QFrame(self.LoginPage)
+        self.LoginFrame.setObjectName(u"LoginFrame")
+        self.LoginFrame.setGeometry(QRect(20, 30, 200, 90))
+        self.LoginFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.LoginFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.PasswordField = QLineEdit(self.LoginFrame)
+        self.PasswordField.setObjectName(u"PasswordField")
+        self.PasswordField.setGeometry(QRect(10, 50, 180, 30))
+        font = QFont()
+        font.setKerning(True)
+        self.PasswordField.setFont(font)
+        self.PasswordField.setEchoMode(QLineEdit.EchoMode.Password)
+        self.PasswordField.setClearButtonEnabled(False)
+        self.UserField = QLineEdit(self.LoginFrame)
+        self.UserField.setObjectName(u"UserField")
+        self.UserField.setGeometry(QRect(10, 10, 180, 30))
+        self.ShowPassword = QPushButton(self.LoginFrame)
+        self.ShowPassword.setObjectName(u"ShowPassword")
+        self.ShowPassword.setGeometry(QRect(165, 55, 20, 20))
+        self.LoginFailure = QLabel(self.LoginPage)
+        self.LoginFailure.setObjectName(u"LoginFailure")
+        self.LoginFailure.setGeometry(QRect(70, 140, 100, 16))
+        self.stackedWidget.addWidget(self.LoginPage)
+        self.FunctionPage = QWidget()
+        self.FunctionPage.setObjectName(u"FunctionPage")
+        self.FunctionsFrame = QFrame(self.FunctionPage)
+        self.FunctionsFrame.setObjectName(u"FunctionsFrame")
+        self.FunctionsFrame.setGeometry(QRect(70, 20, 105, 105))
+        self.FunctionsFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.FunctionsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.Scrobble = QPushButton(self.FunctionsFrame)
+        self.Scrobble.setObjectName(u"Scrobble")
+        self.Scrobble.setGeometry(QRect(15, 70, 75, 25))
+        self.Simulate = QPushButton(self.FunctionsFrame)
+        self.Simulate.setObjectName(u"Simulate")
+        self.Simulate.setGeometry(QRect(15, 40, 75, 25))
+        self.Verify = QPushButton(self.FunctionsFrame)
+        self.Verify.setObjectName(u"Verify")
+        self.Verify.setGeometry(QRect(15, 10, 75, 25))
+        self.User = QLabel(self.FunctionPage)
+        self.User.setObjectName(u"User")
+        self.User.setGeometry(QRect(60, 160, 121, 20))
+        self.Redirect = QFrame(self.FunctionPage)
+        self.Redirect.setObjectName(u"Redirect")
+        self.Redirect.setGeometry(QRect(70, 184, 105, 101))
+        self.Redirect.setFrameShape(QFrame.Shape.NoFrame)
+        self.Redirect.setFrameShadow(QFrame.Shadow.Raised)
+        self.Logout = QPushButton(self.Redirect)
+        self.Logout.setObjectName(u"Logout")
+        self.Logout.setGeometry(QRect(15, 10, 75, 25))
+        self.Settings = QPushButton(self.Redirect)
+        self.Settings.setObjectName(u"Settings")
+        self.Settings.setGeometry(QRect(15, 40, 75, 25))
+        self.ViewLogs = QPushButton(self.Redirect)
+        self.ViewLogs.setObjectName(u"ViewLogs")
+        self.ViewLogs.setGeometry(QRect(15, 70, 75, 25))
+        self.stackedWidget.addWidget(self.FunctionPage)
+        self.SettingsPage = QWidget()
+        self.SettingsPage.setObjectName(u"SettingsPage")
+        self.TimezoneFrame = QFrame(self.SettingsPage)
+        self.TimezoneFrame.setObjectName(u"TimezoneFrame")
+        self.TimezoneFrame.setGeometry(QRect(20, 20, 200, 80))
+        self.TimezoneFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.TimezoneFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.TimezoneLabel = QLabel(self.TimezoneFrame)
+        self.TimezoneLabel.setObjectName(u"TimezoneLabel")
+        self.TimezoneLabel.setGeometry(QRect(10, 10, 55, 15))
+        self.Timezone = QComboBox(self.TimezoneFrame)
+        self.Timezone.addItem("")
+        self.Timezone.addItem("")
+        self.Timezone.setObjectName(u"Timezone")
+        self.Timezone.setGeometry(QRect(70, 8, 110, 20))
+        self.SaveTimezone = QPushButton(self.TimezoneFrame)
+        self.SaveTimezone.setObjectName(u"SaveTimezone")
+        self.SaveTimezone.setGeometry(QRect(50, 40, 100, 25))
+        self.FilepathFrame = QFrame(self.SettingsPage)
+        self.FilepathFrame.setObjectName(u"FilepathFrame")
+        self.FilepathFrame.setGeometry(QRect(20, 130, 200, 80))
+        self.FilepathFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.FilepathFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.FilepathLabel = QLabel(self.FilepathFrame)
+        self.FilepathLabel.setObjectName(u"FilepathLabel")
+        self.FilepathLabel.setGeometry(QRect(10, 10, 45, 15))
+        self.ChangeFilepath = QPushButton(self.FilepathFrame)
+        self.ChangeFilepath.setObjectName(u"ChangeFilepath")
+        self.ChangeFilepath.setGeometry(QRect(50, 40, 100, 25))
+        self.InsertFilepath = QLabel(self.FilepathFrame)
+        self.InsertFilepath.setObjectName(u"InsertFilepath")
+        self.InsertFilepath.setGeometry(QRect(60, 10, 130, 16))
+        self.Return = QPushButton(self.SettingsPage)
+        self.Return.setObjectName(u"Return")
+        self.Return.setGeometry(QRect(85, 240, 75, 25))
+        self.stackedWidget.addWidget(self.SettingsPage)
+        self.LogPage = QWidget()
+        self.LogPage.setObjectName(u"LogPage")
+        self.LogData = QTextEdit(self.LogPage)
+        self.LogData.setObjectName(u"LogData")
+        self.LogData.setGeometry(QRect(10, 30, 220, 260))
+        self.LogData.setReadOnly(True)
+        self.frame = QFrame(self.LogPage)
+        self.frame.setObjectName(u"frame")
+        self.frame.setGeometry(QRect(10, 0, 220, 25))
+        self.frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.ClearLog = QPushButton(self.frame)
+        self.ClearLog.setObjectName(u"ClearLog")
+        self.ClearLog.setGeometry(QRect(125, 0, 80, 25))
+        self.ClearLog.setAutoFillBackground(False)
+        self.Return_1 = QPushButton(self.frame)
+        self.Return_1.setObjectName(u"Return_1")
+        self.Return_1.setGeometry(QRect(15, 0, 80, 25))
+        self.stackedWidget.addWidget(self.LogPage)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 240, 33))
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+
+        self.stackedWidget.setCurrentIndex(0)
+
+
+        QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.PasswordField.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Password:", None))
+        self.UserField.setPlaceholderText(QCoreApplication.translate("MainWindow", u"User:", None))
+        self.ShowPassword.setText("")
+        self.LoginFailure.setText(QCoreApplication.translate("MainWindow", u"Login Unsuccessful", None))
+        self.Scrobble.setText(QCoreApplication.translate("MainWindow", u"Scrobble", None))
+        self.Simulate.setText(QCoreApplication.translate("MainWindow", u"Simulate", None))
+        self.Verify.setText(QCoreApplication.translate("MainWindow", u"Verify", None))
+        self.User.setText(QCoreApplication.translate("MainWindow", u"Logged in as:", None))
+        self.Logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.Settings.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
+        self.ViewLogs.setText(QCoreApplication.translate("MainWindow", u"View Logs", None))
+        self.TimezoneLabel.setText(QCoreApplication.translate("MainWindow", u"Timezone: ", None))
+        self.Timezone.setItemText(0, QCoreApplication.translate("MainWindow", u"UTC+10", None))
+        self.Timezone.setItemText(1, QCoreApplication.translate("MainWindow", u"UTC", None))
+
+        self.SaveTimezone.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        self.FilepathLabel.setText(QCoreApplication.translate("MainWindow", u"Filepath:", None))
+        self.ChangeFilepath.setText(QCoreApplication.translate("MainWindow", u"Change Filepath", None))
+        self.InsertFilepath.setText(QCoreApplication.translate("MainWindow", u"InsertFilepath", None))
+        self.Return.setText(QCoreApplication.translate("MainWindow", u"Return", None))
+        self.LogData.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
+        self.ClearLog.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
+        self.Return_1.setText(QCoreApplication.translate("MainWindow", u"Return", None))
+    # retranslateUi
+
