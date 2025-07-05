@@ -2,7 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QDialogButtonBox
 from PySide6.QtWidgets import QPlainTextEdit, QFileDialog
 from PySide6.QtGui import QIcon
-from interface2 import Ui_MainWindow  # Import the generated UI class
+from interface import Ui_MainWindow  # Import the generated UI class
 from backend import * # Import backend functions
 
 
