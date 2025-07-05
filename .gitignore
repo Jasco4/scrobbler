@@ -1,3 +1,4 @@
 *.txt
 .env
 /ignore
+/__pycache__
