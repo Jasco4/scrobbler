@@ -1,6 +1,6 @@
 import requests
 import hashlib
-from datetime import datetime, timezone
+from datetime import datetime
 from dotenv import load_dotenv
 import os
 
@@ -11,7 +11,11 @@ api_key: str = os.getenv('API_KEY')
 shared_secret: str = os.getenv('SHARED_SECRET')
 
 BASE_URL: str = 'https://ws.audioscrobbler.com/2.0/'
-HEADER = ['#AUDIOSCROBBLER/1.1\n', '#TZ/\n', '#CLIENT/Rockbox ipodvideo $Revision$\n']
+HEADER = [
+    '#AUDIOSCROBBLER/1.1\n',
+    '#TZ/\n',
+    '#CLIENT/Rockbox ipodvideo $Revision$\n',
+]
 HEADER_LEN: int = len(HEADER)
 
 SIMULATE_PATH: str = 'D:\\simulation.log'
@@ -28,11 +32,13 @@ def ts_to_time(timestamp: int) -> None:
     dt = datetime.fromtimestamp(timestamp)
     return dt
 
+
 def timezone_adjust(timestamp: str, timezone: str) -> int:
     ''' Adjusts timestamps to UTC from local timezone '''
     delta_ts = int(timezone[3:]) * 3600
     adjusted_ts = int(timestamp) - delta_ts
     return adjusted_ts
+
 
 def global_offset(filename: str) -> int:
     '''
@@ -45,8 +51,12 @@ def global_offset(filename: str) -> int:
     with open(filename, 'r') as f:
         last_scrobble = f.readlines()[-1]
         file_timestamp = int(last_scrobble.split('\t')[-2])
-        global_offset = int(datetime.now().timestamp()) - timezone_adjust(file_timestamp, DEFAULT_LOCAL_TZ)
+        global_offset = int(datetime.now().timestamp()) - timezone_adjust(
+            file_timestamp,
+            DEFAULT_LOCAL_TZ,
+        )
     return global_offset
+
 
 def update_ts(filename: str, offset: int) -> None:
     ''' Offsets each timestamp by a given contant value '''
@@ -57,16 +67,22 @@ def update_ts(filename: str, offset: int) -> None:
     with open(updated_filename, 'a') as updated:
         with open(filename, 'r') as f:
             for i, line in enumerate(f):
-                if i < HEADER_LEN:
+                if (i < HEADER_LEN):
                     updated.write(line)
                     continue
                 ts = int(line.split('\t')[-2])
                 updated_ts = ts + offset
-                updated_line = '\t'.join(line.split('\t')[:-2] + [str(updated_ts), '\n'])
+                updated_line = (
+                    '\t'.join(line.split('\t')[:-2] + [str(updated_ts), '\n'])
+                )
                 updated.write(updated_line)
 
+
 def fix_file(filename: str) -> None:
-    ''' Adjusts each timestamp in a specifed file, based on timezone and required offset '''
+    '''
+    Adjusts each timestamp in a specifed file
+    based on the timezone and required offset.
+    '''
     offset = global_offset(filename)
     update_ts(filename, offset)
 
@@ -108,7 +124,7 @@ class LastFM:
     def get_ignored(self) -> list[dict]:
         ''' Returns ignored log '''
         return self._ignored
-    
+
     def set_mobile_sk(self, sk: str) -> None:
         self._sk = sk
 
@@ -154,7 +170,7 @@ class LastFM:
             return self._sk
         else:
             return
-            #raise Exception(f"Error getting session: {data}")  # FIX
+            # raise Exception(f"Error getting session: {data}")  # FIX
 
     def save_ignored(self) -> None:
         ''' Appends all ignored lines to IGNORED_PATH '''
@@ -163,10 +179,10 @@ class LastFM:
                 ignored.write(line)
 
     def readfile(self) -> tuple[list[dict], int]:
-        ''' 
+        '''
         Reads log file, skipped tracks (if any) are appended
         to ignored track list. All other tracks are added into
-        groups of length 50. 
+        groups of length 50.
         '''
         self.clear_ignored()
         scrobble_groups = []
@@ -207,7 +223,6 @@ class LastFM:
             scrobble_groups.append(group.copy())
         return scrobble_groups, scrobble_count
 
-
     def simulate(self) -> None:
         '''
         Simulates how the tracks would be scrobbled locally, with
@@ -215,8 +230,8 @@ class LastFM:
         '''
         self.clear_simulate()
         self.clear_ignored()
-        
-        with open (SIMULATE_PATH, 'a') as simulation:
+
+        with open(SIMULATE_PATH, 'a') as simulation:
             with open(self.get_filename(), 'r') as f:
                 for i, line in enumerate(f):
 
@@ -249,7 +264,7 @@ class LastFM:
         '''
         # Creates song groups, and calls api to scrobble groups
         song_groups, scrobble_num = self.readfile()
-        
+
         for i, group in enumerate(song_groups):
             params = group.copy()
             params.update({
@@ -267,10 +282,15 @@ class LastFM:
             self.scrobble_progress(progress, scrobble_num)
 
         # Prints number of tracks scrobbled and ignored
-        number_scrobbled = (len(song_groups) - 1) * 50 + int(len(song_groups[-1])/6)
+        number_scrobbled = (
+            (len(song_groups) - 1) * 50 + int(len(song_groups[-1])/6)
+        )
+
         number_ignored = len(self.get_ignored())
-        print(f"Tracks Scrobbled: {number_scrobbled}\n" + \
-              f"Tracks Ignored: {number_ignored}")
+        print(
+            f"Tracks Scrobbled: {number_scrobbled}\n"
+            f"Tracks Ignored: {number_ignored}"
+        )
 
     def verify(self) -> None:
         '''
@@ -288,7 +308,8 @@ class LastFM:
                 prev = ts
                 ts = int(line.split('\t')[-2])
                 if prev > ts:
-                    print(f"Error detected: Line {i + 1}\n{line}") # FIX CLARITY
+                    # FIX CLARITY
+                    print(f"Error detected: Line {i + 1}\n{line}")
                     return
             print('No errors detected')
 
@@ -299,4 +320,4 @@ class LastFM:
 
 # CONFIGURE
 # promt a delete, keep, or backup screen after scrobble
-#option to view log of ignored songs
+# option to view log of ignored songs
