@@ -7,16 +7,16 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QThreadPool, Signal
 from PySide6.QtGui import QIcon
+from pathlib import Path
 import sys
 import os
 
 # Import backend functions and generated UI class
-from src.interface import Ui_MainWindow
-from src.backend import (
-    LastFM,
-    SIMULATE_PATH,
-    DEFAULT_LOCAL_TZ,
+from gui.interface import Ui_MainWindow
+from lastfm import LastFM
+from scrobbler import (
     DEFAULT_FILEPATH,
+    DEFAULT_LOCAL_TZ,
 )
 
 # Page indexes
@@ -25,18 +25,16 @@ FUNCTION_PAGE: int = 1
 SETTINGS_PAGE: int = 2
 LOGS_PAGE: int = 3
 
-WINDOW_ICON_PATH = 'assets/logo.png'
-HIDDEN_ICON_PATH = 'assets/hidden.png'
-SHOW_ICON_PATH = 'assets/show.png'
-CREDENTIALS_PATH = 'credentials.txt'
-WINDOW_TITLE = 'Scrobbler'
+launch_file = Path(__file__).resolve()
+PROJECT_DIR = launch_file.parent.parent
+ASSETS_DIR = f"{PROJECT_DIR}/assets"
+CREDENTIALS_PATH = f"{PROJECT_DIR}/.user"
+WINDOW_ICON_PATH = f"{ASSETS_DIR}/logo.png"
+HIDDEN_ICON_PATH = f"{ASSETS_DIR}/hidden.png"
+SHOW_ICON_PATH = f"{ASSETS_DIR}/show.png"
+WINDOW_TITLE = "Scrobbler"
 WINDOW_WIDTH = 240
 WINDOW_HEIGHT = 360
-
-# File handling modes
-READ = 'r'
-WRITE = 'w'
-UTF8 = 'utf-8'
 
 
 class MyWindow(QMainWindow):
@@ -136,7 +134,7 @@ class MyWindow(QMainWindow):
         the function page. Else informs user of unsuccessful login
         attempt and clears input fields.
         '''
-        user = self.ui.UserField.text()
+        user = self.ui.UserField.text().lower()
         password = self.ui.PasswordField.text()
         self._client = LastFM(
             user,
@@ -145,12 +143,16 @@ class MyWindow(QMainWindow):
             DEFAULT_LOCAL_TZ,
         )
 
-        sk = self.get_client().get_mobile_sk()
+        sk = self.get_client().get_new_mobile_sk()
 
         if (sk is not None):
-            # Writes credentials to new text file
-            with open(CREDENTIALS_PATH, WRITE) as f:
-                f.write(f"{user}\t{password}\t{sk}")
+
+            # Store session key in keyring
+            self.get_client().set_mobile_sk(sk)
+
+            # Write username to file
+            with open(CREDENTIALS_PATH, "w") as f:
+                f.write(user)
 
         self.signal.emit(bool(sk))
 
@@ -167,16 +169,17 @@ class MyWindow(QMainWindow):
         '''
         Automatically creates LastFM client based on previous login data.
         '''
-        with open(CREDENTIALS_PATH, READ) as file:
-            user, password, sk = file.readline().split('\t')
+        with open(CREDENTIALS_PATH, "r") as file:
+
+            user = file.readline()
             self._client = LastFM(
                 user,
-                password,
+                "",
                 DEFAULT_FILEPATH,
                 DEFAULT_LOCAL_TZ,
             )
-            self.get_client().set_mobile_sk(sk)
-        self.login(user)
+            if (self.get_client().get_sk() is not None):
+                self.login(user)
 
     def login(self, user) -> None:
         ''' User credentials verified, and valid client session created '''
@@ -188,6 +191,10 @@ class MyWindow(QMainWindow):
     def logout(self) -> None:
         ''' Returns to login page, and deletes credentials file '''
         self.ui.stackedWidget.setCurrentIndex(LOGIN_PAGE)
+
+        self.get_client().delete_sk()
+
+        # Delete file storing username
         if os.path.exists(CREDENTIALS_PATH):
             os.remove(CREDENTIALS_PATH)
 
@@ -202,7 +209,7 @@ class MyWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(SETTINGS_PAGE)
 
     def view_logs(self) -> None:
-        self.set_log()
+        self.ui.LogData.setText(self.get_client().get_sim())
         self.ui.stackedWidget.setCurrentIndex(LOGS_PAGE)
 
     def simulate(self) -> None:
@@ -233,21 +240,18 @@ class MyWindow(QMainWindow):
         self.get_client().set_local_tz(timezone)
         print(self.get_client().get_local_tz())
 
-    def set_log(self) -> None:
-        output = None
-        if os.path.exists(SIMULATE_PATH):
-            with open(SIMULATE_PATH, READ, encoding=UTF8) as f:
-                output = f.read()
-        self.ui.LogData.setText(output)
-
     def clear_log(self) -> None:
         self.ui.LogData.clear()
         self.get_client().clear_simulate()
 
 
-# Run the application
-if __name__ == "__main__":
+def main() -> None:
     app = QApplication(sys.argv)
     window = MyWindow()
     window.show()  # Show the main window
     sys.exit(app.exec())  # Start the application's event loop
+
+
+# Run the application
+if __name__ == "__main__":
+    main()
